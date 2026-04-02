@@ -27,7 +27,7 @@ def load_sitemap_docs():
 def split_docs(docs):
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=CHUNK_SIZE,
-        chunks_overlap=CHUNK_OVERLAP,
+        chunk_overlap=CHUNK_OVERLAP,
     )
     return splitter.split_documents(docs)
 

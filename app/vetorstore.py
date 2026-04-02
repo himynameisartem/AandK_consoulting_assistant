@@ -4,7 +4,7 @@ from app.embeddings import get_embedding
 
 def build_vectorstore(documents):
     embeddings = get_embedding()
-    return Chroma(
+    return Chroma.from_documents(
         documents=documents,
         embedding=embeddings,
         persist_directory=str(CHROMA_DIR)

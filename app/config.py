@@ -2,10 +2,10 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data"
-CHROMA_DIR = BASE_DIR / "chroma_db"
-CHUNKS_PATH = BASE_DIR / "chunks.pickle"
+CHROMA_DIR = DATA_DIR / "chroma_db"
+CHUNKS_PATH = DATA_DIR / "chunks.pickle"
 
-ROOT_URL = "https://us.ak.com/"
+ROOT_URL = "https://us-ak.com/"
 SITEMAP_URL = f"{ROOT_URL}sitemap.xml"
 
 OLLAMA_BASE_URL =  "http://127.0.0.1:11434"
