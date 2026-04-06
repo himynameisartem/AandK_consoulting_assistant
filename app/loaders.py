@@ -3,12 +3,14 @@ import nest_asyncio
 import pickle
 
 from langchain_community.document_loaders import SitemapLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter, TokenTextSplitter, Language
 
 from app.config import (
     CHUNKS_PATH,
     CHUNK_OVERLAP,
     CHUNK_SIZE,
+    TOKEN_CHUNK_SIZE,
+    TOKEN_CHUNK_OVERLAP,
     ROOT_URL,
     SITEMAP_URL,
     USER_AGENT
@@ -25,11 +27,19 @@ def load_sitemap_docs():
     return loader.load()
 
 def split_docs(docs):
-    splitter = RecursiveCharacterTextSplitter(
+    splitter = RecursiveCharacterTextSplitter.from_language(
+        language=Language.HTML,
         chunk_size=CHUNK_SIZE,
         chunk_overlap=CHUNK_OVERLAP,
     )
     return splitter.split_documents(docs)
+
+def tokens_split_docs(docs):
+    token_splitter = TokenTextSplitter(
+        chunk_size=TOKEN_CHUNK_SIZE,
+        chunk_overlap=TOKEN_CHUNK_OVERLAP,
+    )
+    return  token_splitter.split_documents(docs)
 
 def save_chunks(chunks):
     with open(CHUNKS_PATH, "wb") as f:

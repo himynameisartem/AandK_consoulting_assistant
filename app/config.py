@@ -12,9 +12,12 @@ OLLAMA_BASE_URL =  "http://127.0.0.1:11434"
 OLLAMA_LLM_BASE_URL = f"{OLLAMA_BASE_URL}/v1"
 
 EMBEDDING_MODEL = "hf.co/Casual-Autopsy/snowflake-arctic-embed-l-v2.0-gguf:Q4_K_M"
+RoSBRTa_EMBEDDING_MODEL = "ai-forever/ru-en-RoSBERTa"
 LLM_MODEL = "gemma3:4b"
 
 USER_AGENT = "Mozilla/5.0"
 CHUNK_SIZE = 500
 CHUNK_OVERLAP = 100
 RETRIEVER_K = 5
+TOKEN_CHUNK_SIZE = 256
+TOKEN_CHUNK_OVERLAP = 32

@@ -1,4 +1,4 @@
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 from app.config import CHROMA_DIR, RETRIEVER_K
 from app.embeddings import get_embedding
 
