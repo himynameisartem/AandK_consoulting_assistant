@@ -1,6 +1,9 @@
 from langchain_ollama import OllamaEmbeddings
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_core.embeddings import Embeddings
+from huggingface_hub import login
+
+login()
 
 from app.config import EMBEDDING_MODEL, OLLAMA_BASE_URL, RoSBRTa_EMBEDDING_MODEL
 
@@ -20,7 +23,8 @@ class PrefixedEmbeddings(Embeddings):
 
 def get_rosberta_embeddings():
     base_embeddings = HuggingFaceEmbeddings(
-        model_name=RoSBRTa_EMBEDDING_MODEL
+        model_name=RoSBRTa_EMBEDDING_MODEL,
+        encode_kwargs={"batch_size": 8}
     )
     return PrefixedEmbeddings(
         base_embeddings,

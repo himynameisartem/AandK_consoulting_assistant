@@ -1,9 +1,9 @@
 from langchain_chroma import Chroma
 from app.config import CHROMA_DIR, RETRIEVER_K
-from app.embeddings import get_embedding
+from app.embeddings import get_rosberta_embeddings
 
 def build_vectorstore(documents):
-    embeddings = get_embedding()
+    embeddings = get_rosberta_embeddings()
     return Chroma.from_documents(
         documents=documents,
         embedding=embeddings,
@@ -12,7 +12,7 @@ def build_vectorstore(documents):
 
 
 def load_vectorstore():
-    embeddings = get_embedding()
+    embeddings = get_rosberta_embeddings()
     return Chroma(
         persist_directory=str(CHROMA_DIR),
         embedding_function=embeddings
@@ -20,3 +20,13 @@ def load_vectorstore():
 
 def get_retriever():
     return load_vectorstore().as_retriever(search_kwargs={"k": RETRIEVER_K})
+
+def get_mmr_retriever():
+    mmr_retriever = load_vectorstore().as_retriever(
+        search_type="mmr",
+        search_kwargs={
+            "k": 5,
+            "fetch_k": 16,
+        },
+    )
+    return mmr_retriever

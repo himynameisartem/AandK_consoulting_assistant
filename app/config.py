@@ -1,5 +1,6 @@
 from pathlib import Path
 
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data"
 CHROMA_DIR = DATA_DIR / "chroma_db"
@@ -16,8 +17,32 @@ RoSBRTa_EMBEDDING_MODEL = "ai-forever/ru-en-RoSBERTa"
 LLM_MODEL = "gemma3:4b"
 
 USER_AGENT = "Mozilla/5.0"
-CHUNK_SIZE = 500
-CHUNK_OVERLAP = 100
+CHUNK_SIZE = 1000
+CHUNK_OVERLAP = 200
 RETRIEVER_K = 5
-TOKEN_CHUNK_SIZE = 256
-TOKEN_CHUNK_OVERLAP = 32
+
+JUNK_PHRASES = (
+    "Введите корректный e-mail",
+    "Введите корректное имя",
+    "Введите корректный номер телефона",
+    "Значение слишком короткое",
+    "Оставить заявку",
+    "Получить консультацию",
+    "Получить бесплатный гайд",
+    "Мною прочитаны и приняты условия политики конфиденциальности",
+)
+
+JUNK_SELECTORS = (
+    "script",
+    "style",
+    "noscript",
+    "svg",
+    "form",
+    "button",
+    "input",
+    "textarea",
+    "select",
+    "label",
+    "nav",
+    "footer",
+)
