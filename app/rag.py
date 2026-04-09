@@ -1,11 +1,9 @@
 from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough, RunnableLambda
 
 from app.llm import get_llm
-from app.vetorstore import get_retriever, get_mmr_retriever
-
-# def format_docs(docs):
-#     return "\n\n".join(doc.page_content for doc in docs)
+from app.vetorstore import get_mmr_retriever
 
 def format_docs(docs, max_chars: int = 8000):
     formatted = []
@@ -22,7 +20,6 @@ def format_docs(docs, max_chars: int = 8000):
         text = doc.page_content.strip()
         block = f"{header}\n{text}"
 
-        # если следующий блок слишком раздует контекст – останавливаемся
         if total_len + len(block) > max_chars:
             break
 
@@ -40,17 +37,36 @@ def ensure_context(input_dict: dict) -> dict:
         )
     return input_dict
 
+def build_query_rewriter(llm):
+    prompt = ChatPromptTemplate.from_messages([
+        ("system",
+         "Ты помощник, который улучшает поисковые запросы для RAG-системы. "
+         "Переформулируй вопрос пользователя так, чтобы он лучше совпадал с текстами на сайте "
+         "консалтинговой компании A&K (языковые курсы, визы, программы в США). "
+         "Убери разговорные обороты, сделай запрос конкретным и информативным. "
+         "Верни ТОЛЬКО переформулированный запрос, без пояснений."),
+        ("human", "{question}")
+    ])
+    return prompt | llm | StrOutputParser()
+
 def build_rag_chain(prompt):
     retriever = get_mmr_retriever()
     llm = get_llm()
+    query_rewriter = build_query_rewriter(llm)
+
+    def retrieve_with_rewrite(question: str):
+        rewritten = query_rewriter.invoke({"question": question})
+        print(f"[Rewritten query]: {rewritten}")
+        docs = retriever.invoke(rewritten)
+        return format_docs(docs)
 
     return (
-    {
-        "context": retriever | format_docs,
-        "question": RunnablePassthrough(),
-        "history": lambda _: [],  # пока истории нет – передаём пустой список
-    }
-    | RunnableLambda(ensure_context)   # защита от пустого контекста
+        {
+            "context": lambda q: retrieve_with_rewrite(q),
+            "question": RunnablePassthrough(),
+            "history": lambda _: [],
+        }
+    | RunnableLambda(ensure_context)
     | prompt
     | llm
     | StrOutputParser()

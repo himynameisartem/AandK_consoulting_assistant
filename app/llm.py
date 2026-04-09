@@ -8,6 +8,6 @@ def get_llm():
         model=LLM_MODEL,
 
         temperature=0.2,
-        max_tokens=512,
+        max_tokens=1024,
         top_p=0.9,
     )
