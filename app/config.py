@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data"
@@ -29,6 +30,21 @@ JUNK_PHRASES = (
     "Получить консультацию",
     "Получить бесплатный гайд",
     "Мною прочитаны и приняты условия политики конфиденциальности",
+    "Оценка шансов на получение визы",
+    "Студенческая виза в США",
+    "Туристическая виза в США",
+    "Шенгенская виза",
+    "Университетские программы",
+    "Языковые курсы",
+    "Политика конфиденциальности",
+    "Публичная оферта",
+    "Мы используем файлы cookie",
+    "Ок, принимаю",
+    "Настроить Cookie",
+    "Основные (необходимые) файлы cookie",
+    "Аналитические файлы cookie",
+    "Рекламные файлы cookie",
+    "Все права защищены",
 )
 
 JUNK_SELECTORS = (
@@ -44,4 +60,23 @@ JUNK_SELECTORS = (
     "label",
     "nav",
     "footer",
+    ".t-footer",
+    ".t-header",
+    ".t-nav",
+    ".t-cover__carrier",
+    ".t-cookie",
+    ".t396__elem",
+    "[data-tilda-forms]"
+)
+
+BOILERPLATE_PATTERNS = (
+    re.compile(r'файлы\s+cookie', re.IGNORECASE),
+    re.compile(r'Copyright\s*©', re.IGNORECASE),
+    re.compile(r'Все права защищены'),
+    re.compile(r'office@'),
+    re.compile(r'WhatsApp|Telegram', re.IGNORECASE),
+    re.compile(r'Главная\s*→'),
+    re.compile(r'^(English|Русский)$'),
+    re.compile(r'^(НАВИГАЦИЯ|ДОКУМЕНТЫ|КОНТАКТЫ)$'),
+    re.compile(r'Подтвердить|Disabled|Всегда включены'),
 )
