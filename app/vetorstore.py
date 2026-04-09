@@ -25,8 +25,8 @@ def get_mmr_retriever():
     mmr_retriever = load_vectorstore().as_retriever(
         search_type="mmr",
         search_kwargs={
-            "k": 5,
-            "fetch_k": 16,
+            "k": 8,
+            "fetch_k": 20,
         },
     )
     return mmr_retriever

@@ -16,7 +16,7 @@ from app.config import (
     SITEMAP_URL,
     USER_AGENT,
     JUNK_PHRASES,
-    JUNK_SELECTORS
+    JUNK_SELECTORS,
 )
 
 def load_sitemap_docs():
@@ -48,9 +48,10 @@ def is_serialized_garbage(text: str) -> bool:
         r'"li_name"',
         r'"li_radcb"',
         r'tildacdn',
-        r'button='
+        r'button=',
     ]
     return sum(bool(re.search(p, text)) for p in markers) >= 2
+
 
 
 def clean_html(text: str) -> str:
@@ -60,13 +61,13 @@ def clean_html(text: str) -> str:
         for tag in soup.select(selector):
             tag.decompose()
 
-    cleaned = "\n".join(soup.stripped_strings)
+    cleaned = "\\n".join(soup.stripped_strings)
 
     for phrase in JUNK_PHRASES:
-        cleaned = cleaned.replace(phrase, "\n")
+        cleaned = cleaned.replace(phrase, "\\n")
 
-    cleaned = re.sub(r"[ \t]+", " ", cleaned)
-    cleaned = re.sub(r"\n{2,}", "\n\n", cleaned).strip()
+    cleaned = re.sub(r"[ \\t]+", " ", cleaned)
+    cleaned = re.sub(r"\\n{2,}", "\\n\\n", cleaned).strip()
     return cleaned
 
 
@@ -75,6 +76,7 @@ def clean_docs(docs):
     cleaned_docs = []
 
     for doc in docs:
+
         if is_serialized_garbage(doc.page_content):
             continue
 
@@ -107,3 +109,4 @@ def save_chunks(chunks):
 def load_chunks():
     with open(CHUNKS_PATH, "rb") as f:
         return pickle.load(f)
+
