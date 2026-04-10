@@ -68,15 +68,3 @@ JUNK_SELECTORS = (
     ".t396__elem",
     "[data-tilda-forms]"
 )
-
-BOILERPLATE_PATTERNS = (
-    re.compile(r'файлы\s+cookie', re.IGNORECASE),
-    re.compile(r'Copyright\s*©', re.IGNORECASE),
-    re.compile(r'Все права защищены'),
-    re.compile(r'office@'),
-    re.compile(r'WhatsApp|Telegram', re.IGNORECASE),
-    re.compile(r'Главная\s*→'),
-    re.compile(r'^(English|Русский)$'),
-    re.compile(r'^(НАВИГАЦИЯ|ДОКУМЕНТЫ|КОНТАКТЫ)$'),
-    re.compile(r'Подтвердить|Disabled|Всегда включены'),
-)

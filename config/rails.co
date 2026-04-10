@@ -1,0 +1,50 @@
+define user ask anything
+  "Какие услуги есть у компании A&K?"
+  "Как получить визу в США?"
+  "Сколько стоит обучение?"
+  "Расскажи про языковые курсы"
+  "Помогите с визой"
+  "Как поехать учиться в США?"
+  "Что такое программа сертификата?"
+  "Вы можете помочь с лотереей Green Card?"
+  "В каком городе самые доступные цены на курсы?"
+
+define flow
+  user ask anything
+  $answer = execute ask_rag()
+  bot $answer
+
+define flow handle general question
+  user ask general question
+  $answer = execute ask_rag()
+  bot $answer
+
+define flow handle company services
+  user ask about company services
+  $answer = execute ask_rag()
+  bot $answer
+
+define flow handle visa question
+  user ask about visa
+  $answer = execute ask_rag()
+  bot $answer
+
+define flow handle courses question
+  user ask about courses
+  $answer = execute ask_rag()
+  bot $answer
+
+define flow handle pricing question
+  user ask about pricing
+  $answer = execute ask_rag()
+  bot $answer
+
+define flow check output safety
+  bot ...
+  $is_safe = execute check_output()
+  if not $is_safe
+    bot refuse to respond
+    stop
+
+define bot refuse to respond
+  "Извините, я не могу помочь с этим запросом."

@@ -66,8 +66,8 @@ def build_rag_chain(prompt):
             "question": RunnablePassthrough(),
             "history": lambda _: [],
         }
-    | RunnableLambda(ensure_context)
-    | prompt
-    | llm
-    | StrOutputParser()
-).with_config(run_name="rag_chain")
+            | RunnableLambda(ensure_context)
+            | prompt
+            | llm
+            | StrOutputParser()
+        ).with_config(run_name="rag_chain")

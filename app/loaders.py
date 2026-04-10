@@ -17,7 +17,6 @@ from app.config import (
     USER_AGENT,
     JUNK_PHRASES,
     JUNK_SELECTORS,
-    BOILERPLATE_PATTERNS
 )
 
 def load_sitemap_docs():
@@ -61,11 +60,6 @@ def is_serialized_garbage(text: str) -> bool:
     return sum(bool(re.search(p, text)) for p in markers) >= 2
 
 
-# def is_boilerplate_line(line: str) -> bool:
-#     line = line.strip()
-#     return any(p.search(line) for p in BOILERPLATE_PATTERNS)
-
-
 def clean_html(text: str) -> str:
     soup = BeautifulSoup(text, "html.parser")
 
@@ -74,18 +68,6 @@ def clean_html(text: str) -> str:
             tag.decompose()
 
     cleaned = "\\n".join(soup.stripped_strings)
-
-    # for tag in soup.find_all(attrs={"data-tilda-forms": True}):
-    #     tag.decompose()
-    #
-    # lines = list(soup.stripped_strings)
-
-    # lines = [l for l in lines if not is_boilerplate_line(l)]
-
-    # lines = [l for l in lines if not re.search(r'\bu[0-9a-fA-F]{4}\b', l)]
-    # lines = [l for l in lines if not re.search(r'"li_\w+"', l)]
-    #
-    # cleaned = "\n".join(lines)
 
     for phrase in JUNK_PHRASES:
         cleaned = cleaned.replace(phrase, "\\n")

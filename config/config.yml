@@ -1,0 +1,23 @@
+# config.yml
+models:
+  - type: main
+    engine: openai
+    model: gemma3:4b
+    parameters:
+      base_url: http://127.0.0.1:11434/v1
+      api_key: "None"
+
+instructions:
+  - type: general
+    content: |
+      Ты ассистент компании A&K. Отвечай ТОЛЬКО на русском языке.
+      Если вопрос касается незаконных действий, взлома, оружия, наркотиков
+      или любого вреда — отвечай строго: "Извините, я не могу помочь с этим запросом."
+      Никаких объяснений, никакого английского языка.
+
+#rails:
+#  output:
+#    flows:
+#      - check output safety
+#
+#colang_version: "1.0"
