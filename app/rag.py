@@ -3,7 +3,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough, RunnableLambda
 
 from app.llm import get_llm
-from app.vetorstore import get_mmr_retriever
+from app.veсtorstore import get_mmr_retriever
 
 def format_docs(docs, max_chars: int = 8000):
     formatted = []
