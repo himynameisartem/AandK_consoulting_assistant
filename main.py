@@ -2,6 +2,7 @@ import argparse
 
 from app.prompts import build_prompt
 from app.rag import build_rag_chain
+from app.safety import is_safe
 
 
 def parse_args():
@@ -38,12 +39,19 @@ def main():
         if not question:
             continue
 
+        if not is_safe(question, kind="input"):
+            print("\nБезопасность: запрос отклонён safety-слоем.\n")
+            continue
+
         if rag_chain is None:
             prompt = build_prompt()
             rag_chain = build_rag_chain(prompt)
 
         try:
             answer = rag_chain.invoke(question)
+            if not is_safe(answer, kind="output"):
+                print("\nБезопасность: ответ отклонён safety-слоем.\n")
+                continue
             print(f"\nОтвет:\n{answer}\n")
         except Exception as e:
             print(f"\nОшибка: {e}\n")

@@ -14,6 +14,7 @@ OLLAMA_LLM_BASE_URL = f"{OLLAMA_BASE_URL}/v1"
 EMBEDDING_MODEL = "hf.co/Casual-Autopsy/snowflake-arctic-embed-l-v2.0-gguf:Q4_K_M"
 RoSBRTa_EMBEDDING_MODEL = "ai-forever/ru-en-RoSBERTa"
 LLM_MODEL = "gemma3:4b"
+LLAMA_GUARD_MODEL = "meta-llama/Llama-Guard-3-1B"
 
 USER_AGENT = "Mozilla/5.0"
 CHUNK_SIZE = 1000
