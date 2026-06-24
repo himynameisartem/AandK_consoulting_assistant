@@ -14,12 +14,32 @@ OLLAMA_LLM_BASE_URL = f"{OLLAMA_BASE_URL}/v1"
 EMBEDDING_MODEL = "hf.co/Casual-Autopsy/snowflake-arctic-embed-l-v2.0-gguf:Q4_K_M"
 RoSBRTa_EMBEDDING_MODEL = "ai-forever/ru-en-RoSBERTa"
 LLM_MODEL = "gemma3:4b"
-LLAMA_GUARD_MODEL = "meta-llama/Llama-Guard-3-1B"
 
 USER_AGENT = "Mozilla/5.0"
 CHUNK_SIZE = 1000
 CHUNK_OVERLAP = 200
 RETRIEVER_K = 5
+
+LOCAL_SAFETY_PATTERNS = (
+    r"\bвзлом\w*\b",
+    r"\bвлом\w*\b",
+    r"\bhack\w*\b",
+    r"\bbreak\b.*\bsite\b",
+    r"\bbypass\b",
+    r"\bобход\w*\b",
+    r"\bобойт\w*\b",
+    r"\bзащит\w*\b",
+    r"\bвирус\w*\b",
+    r"\bmalware\b",
+    r"\bkeylogger\b",
+    r"\bфишинг\w*\b",
+    r"\bкрад\w*\b",
+    r"\bворов\w*\b",
+    r"\bобман\w*\b",
+    r"\bбомб\w*\b",
+    r"\bвзрывчат\w*\b",
+    r"\bpassword\b.*\bsteal\b",
+)
 
 JUNK_PHRASES = (
     "Введите корректный e-mail",
